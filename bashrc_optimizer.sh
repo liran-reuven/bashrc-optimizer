@@ -63,9 +63,9 @@ cols=$(tput cols)
 
 height=$((rows * 60 / 100))
 width=$((cols * 70 / 100))
-listheight=$((height - 10))
+listheight=$((height - 7))
 
-spacer=$(for i in $(seq 1 $((width - 36))); do echo -n " "; done) # }}}
+spacer=$(for i in $(seq 1 $((width - 80))); do echo -n " "; done) # }}}
 
 # Customizing the whiptail {{{
 export NEWT_COLORS='
@@ -85,12 +85,14 @@ button=black,red
 # Whiptail {{{
 CHOICES=$(whiptail --title "Bashrc Setup Tool" --checklist \
 "Use SPACE to select options and ENTER to confirm:" "$height" "$width" "$listheight" \
-"1" "Add welcome message${spacer}" OFF \
-"2" "Add aliases${spacer}" OFF \
-"3" "Customize prompt${spacer}" OFF \
-"4" "Enable cd logger${spacer}" OFF \
-"5" "Add tips of the day${spacer}" OFF \
-"6" "Setup git branch prompt${spacer}" OFF \
+"welcome_message" "    Add welcome message include the date, time.${spacer}" OFF \
+"login_log" "    Add logger for user logins.${spacer}" OFF \
+"start_directory" "    Change where you start when you enter the user.${spacer}" OFF \
+"aliases" "    Add basic aliases for commands like ls and rm.${spacer}" OFF \
+"custom_prompt" "    Customiez your ps1 prompt.${spacer}" OFF \
+"cd_logger" "    Add cd logger for changing dirctorys.${spacer}" OFF \
+"tips" "    Add some tips you can custom the tips at...${spacer}" OFF \
+"git_branch_prompt" "${spacer}" OFF \
 3>&1 1>&2 2>&3) # }}}
 
 # Check if there is a selection from the user {{{
@@ -106,12 +108,14 @@ fi # }}}
 # Loop for setup the selections {{{
 for choice in $CHOICES; do
     case $choice in
-        "\"1\"") setup_welcome ;;
-        "\"2\"") setup_aliases ;;
-        "\"3\"") setup_prompt ;;
-        "\"4\"") setup_cd_logger ;;
-        "\"5\"") setup_bunner ;; 
-        "\"6\"") setup_git_branch_prompt ;;
+        "\"welcome_message\"") setup_welcome ;;
+        "\"login_log\"") setup_login_log ;;
+        "\"start_directory\"") setup_start_directory ;;
+        "\"aliases\"") setup_aliases ;;
+        "\"custom_prompt\"") setup_prompt ;;
+        "\"cd_logger\"") setup_cd_logger ;;
+        "\"tips\"") setup_bunner ;; 
+        "\"git_branch_prompt\"") setup_git_branch_prompt ;;
     esac
 done # }}}
 

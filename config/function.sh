@@ -8,6 +8,25 @@ printf "\$(date) Welcome \$(whoami)!\n"
 EOL
 } # }}}
 
+setup_login_logs() { # {{{
+cat << EOL >> "$bashrc_file"
+
+#Track logins users
+echo "[$(date)] User $(whoami) logged in" >> /var/log/login.log
+EOL
+} # }}}
+
+setup_start_directory() { # {{{
+start_dir=$(whiptail --inputbox "What is your start directory" \
+"$height" "$width"  --title "Example Dialog" \
+3>&1 1>&2 2>&3)
+cat << EOL >> "$bashrc_file"
+
+#Chacge start directory
+cd $start_dir
+EOL
+} # }}}
+
 setup_aliases() { # {{{
 cat << EOL >> "$bashrc_file"
 
