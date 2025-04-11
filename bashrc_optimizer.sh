@@ -7,7 +7,7 @@ env_file="./config/env.sh"
 timestamp=$(date +%Y-%m-%d_%H-%M-%S) # }}}
 
 # Install dependencies {{{
-    for pkg in figlet gem lolcat; do
+    for pkg in whiptail; do
         if ! command -v $pkg &>/dev/null; then
             echo "$pkg not found. Installing..."
             apt update | apt install -y $pkg
@@ -65,34 +65,23 @@ height=$((rows * 60 / 100))
 width=$((cols * 70 / 100))
 listheight=$((height - 7))
 
-spacer=$(for i in $(seq 1 $((width - 80))); do echo -n " "; done) # }}}
+spacer=$(for i in $(seq 1 $((width - 37))); do echo -n " "; done) # }}}
 
 # Customizing the whiptail {{{
-export NEWT_COLORS='
-root=,blue
-window=,black
-shadow=,blue
-border=blue,black
-title=blue,black
-textbox=blue,black
-radiolist=black,black
-label=black,blue
-checkbox=black,blue
-compactbutton=black,blue
-button=black,red
-' # }}}
+export NEWT_COLORS=$NEWT_COLORS_5
+# }}}
 
 # Whiptail {{{
 CHOICES=$(whiptail --title "Bashrc Setup Tool" --checklist \
 "Use SPACE to select options and ENTER to confirm:" "$height" "$width" "$listheight" \
-"welcome_message" "    Add welcome message include the date, time.${spacer}" OFF \
-"login_log" "    Add logger for user logins.${spacer}" OFF \
-"start_directory" "    Change where you start when you enter the user.${spacer}" OFF \
-"aliases" "    Add basic aliases for commands like ls and rm.${spacer}" OFF \
-"custom_prompt" "    Customiez your ps1 prompt.${spacer}" OFF \
-"cd_logger" "    Add cd logger for changing dirctorys.${spacer}" OFF \
-"tips" "    Add some tips you can custom the tips at...${spacer}" OFF \
-"git_branch_prompt" "${spacer}" OFF \
+"Greet_user_at_login" "${spacer}" OFF \
+"Logs_shell_login_events" "${spacer}" OFF \
+"Set_default_start_folder" "${spacer}" OFF \
+"Common_command_shortcuts" "${spacer}" OFF \
+"Personalized_shell_prompt" "${spacer}" OFF \
+"Logs_every_cd_action" "${spacer}" OFF \
+"Show_random_shell_tips" "${spacer}" OFF \
+"Show_git_branch_in_prompt" "${spacer}" OFF \
 3>&1 1>&2 2>&3) # }}}
 
 # Check if there is a selection from the user {{{
@@ -108,14 +97,14 @@ fi # }}}
 # Loop for setup the selections {{{
 for choice in $CHOICES; do
     case $choice in
-        "\"welcome_message\"") setup_welcome ;;
-        "\"login_log\"") setup_login_log ;;
-        "\"start_directory\"") setup_start_directory ;;
-        "\"aliases\"") setup_aliases ;;
-        "\"custom_prompt\"") setup_prompt ;;
-        "\"cd_logger\"") setup_cd_logger ;;
-        "\"tips\"") setup_bunner ;; 
-        "\"git_branch_prompt\"") setup_git_branch_prompt ;;
+        "\"Greet_user_at_login\"") setup_welcome ;;
+        "\"Logs_shell_login_events\"") setup_login_logs ;;
+        "\"Set_default_start_folder\"") setup_start_directory ;;
+        "\"Common_command_shortcuts\"") setup_aliases ;;
+        "\"Personalized_shell_prompt\"") setup_prompt ;;
+        "\"Logs_every_cd_action\"") setup_cd_logger ;;
+        "\"Show_random_shell_tips\"") setup_bunner ;; 
+        "\"Show_git_branch_in_prompt\"") setup_git_branch_prompt ;;
     esac
 done # }}}
 
