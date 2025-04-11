@@ -53,7 +53,7 @@ else
     cp "$bashrc_file" "$backup_dir/bashrc_backup_$timestamp"
 fi # }}}
 
- # }}}
+# }}}
 
 # Menu System {{{ 
 
