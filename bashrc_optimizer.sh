@@ -68,20 +68,22 @@ listheight=$((height - 7))
 spacer=$(for i in $(seq 1 $((width - 37))); do echo -n " "; done) # }}}
 
 # Customizing the whiptail {{{
-export NEWT_COLORS=$NEWT_COLORS_5
+export NEWT_COLORS=$NEWT_COLORS_2
 # }}}
 
 # Whiptail {{{
 CHOICES=$(whiptail --title "Bashrc Setup Tool" --checklist \
 "Use SPACE to select options and ENTER to confirm:" "$height" "$width" "$listheight" \
-"Greet_user_at_login" "${spacer}" OFF \
-"Logs_shell_login_events" "${spacer}" OFF \
-"Set_default_start_folder" "${spacer}" OFF \
-"Common_command_shortcuts" "${spacer}" OFF \
-"Personalized_shell_prompt" "${spacer}" OFF \
-"Logs_every_cd_action" "${spacer}" OFF \
-"Show_random_shell_tips" "${spacer}" OFF \
-"Show_git_branch_in_prompt" "${spacer}" OFF \
+"WELCOME_MSG" "Add welcome message" OFF \
+"SYS_UPTIME" "System uptime at login" OFF \
+"SYS_SUMMARY" "System summary at login" OFF \
+"TIPS_PACK" "Showrandom tips" OFF \
+"ALIAS_PACK" "Useful aliases" OFF \
+"LOGIN_LOGGER" "Log each login event" OFF \
+"CD_LOGGER" "Log every directory change" OFF \
+"GIT_BRANCH_PS1" "Show git branch in prompt" OFF \
+"CUSTOM_PS1" "Set a custom PS1 prompt" OFF \
+"DIR_POSITION" "Set start dir at login" OFF \
 3>&1 1>&2 2>&3) # }}}
 
 # Check if there is a selection from the user {{{
@@ -97,14 +99,16 @@ fi # }}}
 # Loop for setup the selections {{{
 for choice in $CHOICES; do
     case $choice in
-        "\"Greet_user_at_login\"") setup_welcome ;;
-        "\"Logs_shell_login_events\"") setup_login_logs ;;
-        "\"Set_default_start_folder\"") setup_start_directory ;;
-        "\"Common_command_shortcuts\"") setup_aliases ;;
-        "\"Personalized_shell_prompt\"") setup_prompt ;;
-        "\"Logs_every_cd_action\"") setup_cd_logger ;;
-        "\"Show_random_shell_tips\"") setup_bunner ;; 
-        "\"Show_git_branch_in_prompt\"") setup_git_branch_prompt ;;
+        "\"WELCOME_MSG\"") setup_welcome ;;
+        "\"SYS_UPTIME\"") setup_uptime ;;
+        "\"SYS_SUMMARY\"") setup_system_info ;;
+        "\"TIPS_PACK\"") setup_bunner ;; 
+        "\"ALIAS_PACK\"") setup_aliases ;;
+        "\"LOGIN_LOGGER\"") setup_login_logs ;;
+        "\"CD_LOGGER\"") setup_cd_logger ;;
+        "\"GIT_BRANCH_PS1\"") setup_git_branch_prompt ;;
+        "\"CUSTOM_PS1\"") setup_prompt ;;
+        "\"DIR_POSITION\"") setup_start_directory ;;
     esac
 done # }}}
 
