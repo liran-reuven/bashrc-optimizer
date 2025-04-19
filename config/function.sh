@@ -146,7 +146,7 @@ git_push(){
   3>&1 1>&2 2>&3)
   git add \$files_to_push
   git commit -m "\$commit_prompt"
-  git push https://github.com/$username/\$basename\$(pwd).git
+  git push https://github.com/$username/\$(basename\$(pwd)).git
 }
 EOL
 } # }}}
