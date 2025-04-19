@@ -75,8 +75,8 @@ export NEWT_COLORS=$NEWT_COLORS_2
 CHOICES=$(whiptail --title "Bashrc Setup Tool" --checklist \
 "Use SPACE to select options and ENTER to confirm:" "$height" "$width" "$listheight" \
 "WELCOME_MSG" "Add welcome message" OFF \
-"SYS_UPTIME" "System uptime at login" OFF \
 "SYS_SUMMARY" "System summary at login" OFF \
+"SYS_UPTIME" "System uptime at login" OFF \
 "TIPS_PACK" "Showrandom tips" OFF \
 "ALIAS_PACK" "Useful aliases" OFF \
 "LOGIN_LOGGER" "Log each login event" OFF \
@@ -84,6 +84,7 @@ CHOICES=$(whiptail --title "Bashrc Setup Tool" --checklist \
 "GIT_BRANCH_PS1" "Show git branch in prompt" OFF \
 "CUSTOM_PS1" "Set a custom PS1 prompt" OFF \
 "DIR_POSITION" "Set start dir at login" OFF \
+"GIT_PUSH" "Set shourcut git command" OFF \
 3>&1 1>&2 2>&3) # }}}
 
 # Check if there is a selection from the user {{{
@@ -109,6 +110,7 @@ for choice in $CHOICES; do
         "\"GIT_BRANCH_PS1\"") setup_git_branch_prompt ;;
         "\"CUSTOM_PS1\"") setup_prompt ;;
         "\"DIR_POSITION\"") setup_start_directory ;;
+        "\"GIT_PUSH\"") setup_git_push ;;
     esac
 done # }}}
 

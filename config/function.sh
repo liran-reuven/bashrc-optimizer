@@ -6,7 +6,7 @@ setup_welcome() { # {{{
 cat << EOL >> "$bashrc_file"
 
 #Custom Welcome Message
-printf ">>> WELCOME_MSG >>> Welcome back, \e[1;32m\$(whoami)\e[0m! Today is \e[1;36m\$(date "+%A, %B %d, %Y")\e[0m And the time is \e[1;36m\$(date +%H:%M:%S)\e[0m\n"
+printf "\e[36m>>> Welcome Message >>>\e[0m Welcome back, \e[1;32m\$(whoami)\e[0m! Today is \e[1;36m\$(date "+%A, %B %d, %Y")\e[0m And the time is \e[1;36m\$(date +%H:%M:%S)\e[0m\n\n"
 EOL
 } # }}}
 
@@ -14,7 +14,7 @@ setup_uptime() { # {{{
 cat << EOL >> "$bashrc_file"
 
 #Show uptime
-printf ">>> UPTIME >>> \$(uptime -p)\n"
+printf "\e[36m>>> Uptime >>>\e[0m \$(uptime -p)\n\n"
 EOL
 } # }}}
 
@@ -22,7 +22,7 @@ setup_bunner() { # {{{
 cat << EOL >> "$bashrc_file"
 
 # Bunner of the Day
-printf ">>> BUNNERS >>> Tip of the day: \$(shuf -n 1 ~/.bash_tips)\n"
+printf "\e[36m>>> Bunners >>>\e[0m Tip of the day: \$(shuf -n 1 ~/.bash_tips)\n\n"
 EOL
 
 #Create tips file
@@ -44,9 +44,9 @@ setup_system_info() { # {{{
 cat << EOL >> "$bashrc_file"
 
 #Show System Info
-printf ">>> System Info >>> CPU: \$(grep -m1 "model name" /proc/cpuinfo | cut -d: -f2), Mem: \$(free -h | awk '''/Mem:/ {print \$2}'''), Disk: \$(df -h / | awk '''/\// {print \$4}''')\n"
+printf "\e[36m>>> System Info >>>\e[0m \e[33mCPU:\e[0m \$(grep -m1 "model name" /proc/cpuinfo | cut -d: -f2 | xargs), \e[33mMem:\e[0m \$(free -h | awk '''/Mem:/ {print \$2}'''), \e[33mDisk:\e[0m \$(df -h / | awk '''/\// {print \$4}''')\n\n"
 EOL
-} # }}}
+} # }}} 
 
 # }}}
 
@@ -56,7 +56,7 @@ setup_prompt() { # {{{
 cat << EOL >> "$bashrc_file"
 
 #Custom PS1 Prompt
-PS1='\[\e[32m\]\u@\h:\[\e[34m\]\w\[\e[0m\]\$ '
+PS1='\[\e[32m\]\u@\h:\[\e[1;34m\]\w\[\e[0m\]\$ '
 EOL
 } # }}}
 
@@ -67,7 +67,7 @@ cat << EOL >> "$bashrc_file"
 parse_git_branch() {
   git branch 2>/dev/null | grep '\*' | sed 's/* //'| sed 's/^/\//'
 }
-PS1='\[\e[32m\]\u@\h:\[\e[34m\]\w\[\e[33m\]\$(parse_git_branch)\[\e[0m\]\$ '
+PS1='\[\e[1;32m\]\u@\h:\[\e[34m\]\w\[\e[33m\]\$(parse_git_branch)\[\e[0m\]\$ '
 EOL
 } # }}}
 
@@ -97,7 +97,7 @@ EOL
 
 setup_start_directory() { # {{{
 start_dir=$(whiptail --inputbox "What is your start directory" \
-"$height" "$width"  --title "Example Dialog" \
+"$height" "$width"  --title "Start Directory" \
 3>&1 1>&2 2>&3)
 cat << EOL >> "$bashrc_file"
 
@@ -122,5 +122,33 @@ alias ..='cd ..'
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
+EOL
+} # }}}
+
+setup_git_push() { # {{{
+cat << EOL >> "$bashrc_file"
+
+# Short git push
+rows=\$(tput lines)
+cols=\$(tput cols)
+height=\$((rows * 60 / 100))
+width=\$((cols * 70 / 100))
+git_push(){
+  files_to_push=\$(whiptail --inputbox "What file you want to push" \
+  "\$height" "\$width" --title "Git Push Setup" \
+  3>&1 1>&2 2>&3)
+  commit_prompt=\$(whiptail --inputbox "What is the commit message" \
+  "\$height" "\$width" --title "Git Push Setup" \
+  3>&1 1>&2 2>&3)
+  username=\$(whiptail --inputbox "What is your username" \
+  "\$height" "\$width" --title "Git Push Setup" \
+  3>&1 1>&2 2>&3)
+  projectname=\$(whiptail --inputbox "What the name of the project" \
+  "\$height" "\$width" --title "Git Push Setup" \
+  3>&1 1>&2 2>&3)
+  git add \$files_to_push
+  git commit -m "\$commit_prompt"
+  git push https://github.com/\$username/\$projectname
+}
 EOL
 } # }}}
