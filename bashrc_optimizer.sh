@@ -76,8 +76,8 @@ CHOICES=$(whiptail --title "Bashrc Setup Tool" --checklist \
 "Use SPACE to select options and ENTER to confirm:" "$height" "$width" "$listheight" \
 "WELCOME_MSG" "Add welcome message" OFF \
 "SYS_SUMMARY" "System summary at login" OFF \
-"SYS_UPTIME" "System uptime at login" OFF \
 "TIPS_PACK" "Showrandom tips" OFF \
+"SYS_UPTIME" "System uptime at login" OFF \
 "ALIAS_PACK" "Useful aliases" OFF \
 "LOGIN_LOGGER" "Log each login event" OFF \
 "CD_LOGGER" "Log every directory change" OFF \

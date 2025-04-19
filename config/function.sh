@@ -126,6 +126,9 @@ EOL
 } # }}}
 
 setup_git_push() { # {{{
+username=$(whiptail --inputbox "What is your username" \
+"$height" "$width" --title "Git Push Setup" \
+3>&1 1>&2 2>&3)
 cat << EOL >> "$bashrc_file"
 
 # Short git push
@@ -133,6 +136,7 @@ rows=\$(tput lines)
 cols=\$(tput cols)
 height=\$((rows * 60 / 100))
 width=\$((cols * 70 / 100))
+
 git_push(){
   files_to_push=\$(whiptail --inputbox "What file you want to push" \
   "\$height" "\$width" --title "Git Push Setup" \
@@ -140,15 +144,9 @@ git_push(){
   commit_prompt=\$(whiptail --inputbox "What is the commit message" \
   "\$height" "\$width" --title "Git Push Setup" \
   3>&1 1>&2 2>&3)
-  username=\$(whiptail --inputbox "What is your username" \
-  "\$height" "\$width" --title "Git Push Setup" \
-  3>&1 1>&2 2>&3)
-  projectname=\$(whiptail --inputbox "What the name of the project" \
-  "\$height" "\$width" --title "Git Push Setup" \
-  3>&1 1>&2 2>&3)
   git add \$files_to_push
   git commit -m "\$commit_prompt"
-  git push https://github.com/\$username/\$projectname
+  git push https://github.com/$username/\$basename\$(pwd).git
 }
 EOL
 } # }}}
